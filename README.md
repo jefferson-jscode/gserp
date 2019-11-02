@@ -4,7 +4,7 @@
 
 ### Tasks
 - [x]   Statistics structure
-- [ ]   Save to file (csv, json)
+- [x]   Save to file (json)
 - [ ]   Dynamic delay
 - [ ]   Save SERP html in cache file
 - [ ]   Open SERP with keyword in q param
