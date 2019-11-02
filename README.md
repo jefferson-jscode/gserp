@@ -3,9 +3,9 @@
 ### by: Jefferson Silva (jefferson.jscode@gmail.com)
 
 ### Tasks
-- [ ]   Statistics structure
+- [x]   Statistics structure
 - [ ]   Save to file (csv, json)
 - [ ]   Dynamic delay
-- [ ]   Dynamic per_page
 - [ ]   Save SERP html in cache file
 - [ ]   Open SERP with keyword in q param
+- [ ]   Dynamic per_page

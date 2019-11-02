@@ -1,12 +1,13 @@
 #!/usr/bin/python
 
+import time
 from urllib.parse import urlparse
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 
 chrome_options = Options()
-chrome_options.add_argument('--headless')
+# chrome_options.add_argument('--headless')
 
 
 class Website:
@@ -18,13 +19,21 @@ class Website:
     self.per_page = per_page
     self.delay_min = delay_min
     self.delay_max = delay_max
-    
-    self.results = []
+
+    self.statistics = {
+      'site': self.url,
+      'date': None,
+      'keywords': {kw: [] for kw in self.keywords}
+    }
+
+    print(self.statistics)
   
   def scrape(self, callback=None):
     # start driver
     d = webdriver.Chrome('/opt/webdrivers/chromedriver78', options=chrome_options)
     d.implicitly_wait(10)
+
+    self.statistics['date'] = int(round(time.time() * 1000))
 
     for keyword in self.keywords:
       print('================== %s ==================' % keyword)
@@ -45,32 +54,30 @@ class Website:
       
       # get keyword position from serp
       results = d.find_element_by_id('rso')
-
       results = results.find_elements_by_class_name('g')
 
       # site position
       pos = 0
-      found = 0
 
       for result in results:
         # if len(result.get_attribute('class').split(' ')) > 1: continue
-
         pos += 1
         title = result.find_element_by_tag_name('h3').text
         link = self.__parse_link(result.find_element_by_tag_name('cite'))
         print("[%d] - %s - %s" % (pos, title, link))
-        # and put position in self.results
+
+        # if found
         if self.url in link:
-          found += 1
-          self.results.append({ keyword: pos })
+          # update statistics
+          self.statistics['keywords'][keyword].append(pos)
       
-      print('\n\nKeyword: %s - Encontrado: %d vezes.\n\n' % (keyword, found))
+      print('\n\nKeyword: %s - Encontrado: %d vezes.\n\n' % (keyword, len(self.statistics['keywords'][keyword])))
 
     d.close()
-    callback(self.results)
+    callback(self.statistics)
 
   def get_results(self):
-    return self.results
+    return self.statistics
   
   def __parse_link(self, link):
     cl = link.get_attribute('class')
