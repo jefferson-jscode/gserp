@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import json
 import time
 from urllib.parse import urlparse
 from selenium import webdriver
@@ -98,6 +99,12 @@ def load_keywords(filename):
 
   return keywords
 
+def save_statistics(statistics):
+  print(statistics)
+
+  with open('%s-%d.txt' % (statistics['site'], statistics['date']), 'w+') as f:
+    json.dump(statistics, f)
+
 
 if __name__ == '__main__':
   import sys
@@ -112,4 +119,4 @@ if __name__ == '__main__':
 
   site = Website(url, keywords)
 
-  site.scrape(lambda results: print(results))
+  site.scrape(save_statistics)
