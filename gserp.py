@@ -23,14 +23,11 @@ class Website:
   
   def scrape(self, callback=None):
     # start driver
-    # chrome_options=chrome_options
-    d = webdriver.Chrome('/opt/webdrivers/chromedriver78')
+    d = webdriver.Chrome('/opt/webdrivers/chromedriver78', options=chrome_options)
     d.implicitly_wait(10)
 
     for keyword in self.keywords:
       print('================== %s ==================' % keyword)
-      # open google
-      # TODO: Open serp with keyword in q param
       d.get('https://google.com')
       search_bar = d.find_element_by_name('q')
       search_bar.clear()
@@ -109,8 +106,3 @@ if __name__ == '__main__':
   site = Website(url, keywords)
 
   site.scrape(lambda results: print(results))
-
-  # TODO: Statistics format
-  # TODO: Save to file (csv, json)
-  # TODO: Dynamic delay
-  # TODO: Dynamic per_page
