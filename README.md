@@ -1,6 +1,5 @@
 # GSERP
 ## Google Search Engine Results Page Scrapper
-### by: Jefferson Silva (jefferson.jscode@gmail.com)
 
 ### Tasks
 - [x]   Statistics structure
